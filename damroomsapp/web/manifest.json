@@ -1,6 +1,6 @@
 {
-    "name": "damrooms_app",
-    "short_name": "damrooms_app",
+    "name": "damroomsapp",
+    "short_name": "damroomsapp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

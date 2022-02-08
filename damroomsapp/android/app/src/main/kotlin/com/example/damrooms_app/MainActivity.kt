@@ -1,4 +1,4 @@
-package com.example.damrooms_app
+package com.example.damroomsapp
 
 import io.flutter.embedding.android.FlutterActivity
 
