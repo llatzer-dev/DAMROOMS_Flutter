@@ -25,6 +25,7 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
         body: ListView(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
           children: [
+            Background(),
             _crearFecha(context),
             Divider(),
             _testResultado()
