@@ -20,35 +20,39 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Reservas existentes'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-          children: [
-            Background(),
-            _crearFecha(context),
-            const Divider(),
-            _testResultado()
-          ],
-        ));
+      appBar: AppBar(
+        title: const Text('Reservas existentes'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+        children: [
+          Background(),
+          _crearFecha(context),
+          const Divider(),
+          _testResultado()
+        ],
+      ),
+    );
   }
 
   // Widget del input fecha
   Widget _crearFecha(BuildContext context) {
     _selectDate(BuildContext context) async {
       DateTime? picked = await showDatePicker(
-          context: context,
-          locale: const Locale('es', 'ES'),
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2018),
-          lastDate: DateTime(2025));
+        context: context,
+        locale: const Locale('es', 'ES'),
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2018),
+        lastDate: DateTime(2025),
+      );
 
       if (picked != null) {
-        setState(() {
-          _fecha = picked.toString();
-          _inputFieldDateController.text = _fecha;
-        });
+        setState(
+          () {
+            _fecha = picked.toString();
+            _inputFieldDateController.text = _fecha;
+          },
+        );
       }
     }
 
@@ -56,19 +60,26 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       enableInteractiveSelection: false,
       controller: _inputFieldDateController,
       decoration: InputDecoration(
-          hintText: 'Elige fecha',
-          labelText: 'Elige fecha',
-          suffixIcon: const Icon(Icons.perm_contact_calendar),
-          icon: const Icon(Icons.calendar_today),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+        hintText: 'Elige fecha',
+        labelText: 'Elige fecha',
+        suffixIcon: const Icon(Icons.perm_contact_calendar),
+        icon: const Icon(Icons.calendar_today),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
       onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
+        FocusScope.of(context).requestFocus(
+          FocusNode(),
+        );
         _selectDate(context);
       },
     );
   }
 
   Widget _testResultado() {
-    return ListTile(title: Text('Has elegido: $_fecha'));
+    return ListTile(
+      title: Text('Has elegido: $_fecha'),
+    );
   }
 }
