@@ -1,10 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, unused_element, unnecessary_new, prefer_final_fields
-
 import 'package:flutter/material.dart';
 
 import 'package:damroomsapp/widgets/background.dart';
 
 class ReservasExistentesScreen extends StatefulWidget {
+  const ReservasExistentesScreen({Key? key}) : super(key: key);
+
   @override
   _ReservasExistentesScreenState createState() =>
       _ReservasExistentesScreenState();
@@ -13,21 +13,22 @@ class ReservasExistentesScreen extends StatefulWidget {
 class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
   String _fecha = '';
 
-  TextEditingController _inputFieldDateController = new TextEditingController();
+  final TextEditingController _inputFieldDateController =
+      TextEditingController();
 
   // Lista de widgets de la pagina
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Reservas existentes'),
+          title: const Text('Reservas existentes'),
         ),
         body: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
           children: [
             Background(),
             _crearFecha(context),
-            Divider(),
+            const Divider(),
             _testResultado()
           ],
         ));
@@ -39,9 +40,9 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       DateTime? picked = await showDatePicker(
           context: context,
           locale: const Locale('es', 'ES'),
-          initialDate: new DateTime.now(),
-          firstDate: new DateTime(2018),
-          lastDate: new DateTime(2025));
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2018),
+          lastDate: DateTime(2025));
 
       if (picked != null) {
         setState(() {
@@ -57,11 +58,11 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       decoration: InputDecoration(
           hintText: 'Elige fecha',
           labelText: 'Elige fecha',
-          suffixIcon: Icon(Icons.perm_contact_calendar),
-          icon: Icon(Icons.calendar_today),
+          suffixIcon: const Icon(Icons.perm_contact_calendar),
+          icon: const Icon(Icons.calendar_today),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
         _selectDate(context);
       },
     );
