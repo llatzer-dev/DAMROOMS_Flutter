@@ -26,7 +26,9 @@ class MyApp extends StatelessWidget {
         const Locale('es', 'ES'), // Spanish, SPAIN
       ],
       initialRoute: 'reservas_existentes_page',
-      routes: {'reservas_existentes_page': (_) => ReservasExistentesScreen()},
+      routes: {
+        'reservas_existentes_page': (_) => const ReservasExistentesScreen()
+      },
     );
   }
 }

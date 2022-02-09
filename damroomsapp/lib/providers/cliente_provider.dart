@@ -5,21 +5,22 @@ import 'dart:async';
 import 'dart:convert';
 
 class ClientesProvider {
-  final String _apikey = 'e8f5e031e2e167767274fb316c880b33';
-  final String _url = 'api.themoviedb.org';
-  final String _language = 'es-ES';
+  final String urlTest = 'my-json-server.typicode.com';
 
-  Future<Cliente> getInfoCliente(Cliente cliente) async {
-    final url = Uri.https(_url, '3/person/' + cliente.dni.toString(),
-        {'api_key': _apikey, 'language': _language});
+  Future<Clientes> getInfoClientes() async {
+    final url = Uri.https(
+      urlTest,
+      '/Lazaro000/testClientes/clientes',
+      {},
+    );
 
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
 
     print(decodedData);
 
-    final infoCliente = Cliente.fromJsonMap(decodedData);
+    final Clientes listaClientes = Clientes.fromJsonList(decodedData);
 
-    return infoCliente;
+    return listaClientes;
   }
 }

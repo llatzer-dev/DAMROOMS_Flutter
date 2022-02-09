@@ -27,17 +27,21 @@ class Reserva {
   DateTime? fechaInicio;
   DateTime? fechaFin;
   Float? importe;
+  String? dni_cliente;
 
-  Reserva(
-      {required this.codReserva,
-      required this.fechaInicio,
-      required this.fechaFin,
-      required this.importe});
+  Reserva({
+    required this.codReserva,
+    required this.fechaInicio,
+    required this.fechaFin,
+    required this.importe,
+    required this.dni_cliente,
+  });
 
   Reserva.fromJsonMap(Map<String, dynamic> json) {
     codReserva = json['id'];
     fechaInicio = json['fechaInicio'];
     fechaFin = json['fechaFin'];
-    importe = json['importe'];
+    importe = json['importe_total'];
+    dni_cliente = json['dni_cliente'];
   }
 }

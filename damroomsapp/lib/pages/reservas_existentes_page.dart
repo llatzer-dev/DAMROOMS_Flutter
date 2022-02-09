@@ -1,3 +1,4 @@
+import 'package:damroomsapp/providers/cliente_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:damroomsapp/widgets/background.dart';
@@ -29,7 +30,8 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
           Background(),
           _crearFecha(context),
           const Divider(),
-          _testResultado()
+          _testResultado(),
+          _crearCliente(),
         ],
       ),
     );
@@ -77,9 +79,31 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
     );
   }
 
+  // Widget para ver lo seleccionado en el widget fecha
   Widget _testResultado() {
     return ListTile(
       title: Text('Has elegido: $_fecha'),
     );
+  }
+
+  // Widget
+  Widget _crearCliente() {
+    final clientesProvider = ClientesProvider();
+    // clientesProvider.getInfoClientes();
+
+    print('------------------------------');
+    print(clientesProvider.getInfoClientes());
+
+    return FutureBuilder(
+      future: clientesProvider.getInfoClientes(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return Container();
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+    ;
   }
 }
