@@ -7,7 +7,7 @@ import 'dart:convert';
 class ClientesProvider {
   final String urlTest = 'my-json-server.typicode.com';
 
-  Future<Clientes> getInfoClientes() async {
+  Future<List<Cliente>> getInfoClientes() async {
     final url = Uri.https(
       urlTest,
       '/Lazaro000/testClientes/clientes',
@@ -19,8 +19,8 @@ class ClientesProvider {
 
     print(decodedData);
 
-    final Clientes listaClientes = Clientes.fromJsonList(decodedData);
+    final listaClientes = Clientes.fromJsonList(decodedData);
 
-    return listaClientes;
+    return listaClientes.clientes;
   }
 }

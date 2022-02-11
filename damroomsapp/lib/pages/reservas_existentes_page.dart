@@ -1,3 +1,4 @@
+import 'package:damroomsapp/models/cliente_model.dart';
 import 'package:damroomsapp/providers/cliente_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -86,24 +87,44 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
     );
   }
 
-  // Widget
+  // Widget conseguir los clientes
   Widget _crearCliente() {
     final clientesProvider = ClientesProvider();
-    // clientesProvider.getInfoClientes();
-
-    print('------------------------------');
-    print(clientesProvider.getInfoClientes());
 
     return FutureBuilder(
       future: clientesProvider.getInfoClientes(),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          return Container();
+          return _crearClientes(snapshot.data!);
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
-    ;
+  }
+
+  // Widget que muestra los clientes
+  Widget _crearClientes(List<dynamic> clientes) {
+    return SizedBox(
+      height: 200.0,
+      child: PageView.builder(
+          controller: PageController(viewportFraction: 0.3, initialPage: 1),
+          itemCount: clientes.length,
+          pageSnapping: false,
+          itemBuilder: (context, i) => _actorTarjeta(clientes[i], context)),
+    );
+  }
+
+  Widget _actorTarjeta(Cliente cliente, BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          Text(
+            cliente.nombre!,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      ),
+    );
   }
 }
