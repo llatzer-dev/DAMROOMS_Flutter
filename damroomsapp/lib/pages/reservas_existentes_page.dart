@@ -1,5 +1,6 @@
 import 'package:damroomsapp/models/cliente_model.dart';
 import 'package:damroomsapp/providers/cliente_provider.dart';
+import 'package:damroomsapp/providers/reservas_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:damroomsapp/widgets/background.dart';
@@ -33,6 +34,7 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
           const Divider(),
           _testResultado(),
           _crearCliente(),
+          _crearReserva(),
         ],
       ),
     );
@@ -97,7 +99,9 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
         if (snapshot.hasData) {
           return _crearClientes(snapshot.data!);
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -123,13 +127,16 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
 
         return Card(
           elevation: 20,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Column(
             children: <Widget>[
               ListTile(
-                leading:
-                    const Icon(Icons.bookmarks_outlined, color: Colors.blue),
+                leading: const Icon(
+                  Icons.bookmarks_outlined,
+                  color: Colors.blue,
+                ),
                 title: Text(nombre + ' ' + apellidos),
                 // subtitle: Text(
                 //     'Esta es una prueba para ver lo que ocurre con una tarjeta que tiene un subtitle bastante largo y que no sabemos como responderá'),
@@ -166,4 +173,80 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
   //     ),
   //   );
   // }
+
+  // Widget conseguir los clientes
+  Widget _crearReserva() {
+    final reservasProvider = ReservasProvider();
+
+    return FutureBuilder(
+      future: reservasProvider.getInfoReservas(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return _crearReservas(snapshot.data!);
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  // Widget que muestra los clientes
+  Widget _crearReservas(List<dynamic> reservas) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: reservas.length,
+      itemBuilder: (BuildContext context, int index) {
+        final codReserva = reservas[index].codReserva;
+        final fechaInicio = reservas[index].fechaInicio;
+        final fechaFin = reservas[index].fechaFin;
+        final importe = reservas[index].importe;
+        final dniCliente = reservas[index].dni_cliente;
+
+        return Card(
+          elevation: 20,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(
+                  Icons.bookmarks_outlined,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  codReserva.toString() +
+                      ' ' +
+                      fechaInicio.toString() +
+                      ' ' +
+                      fechaFin.toString() +
+                      ' ' +
+                      importe.toString() +
+                      ' ' +
+                      dniCliente.toString(),
+                ),
+                // subtitle: Text(
+                //     'Esta es una prueba para ver lo que ocurre con una tarjeta que tiene un subtitle bastante largo y que no sabemos como responderá'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TextButton(
+                    child: const Text('Cancelar'),
+                    onPressed: () {},
+                  ),
+                  TextButton(
+                    child: const Text('Ok'),
+                    onPressed: () {},
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

@@ -24,9 +24,9 @@ class Reservas {
 
 class Reserva {
   int? codReserva;
-  DateTime? fechaInicio;
-  DateTime? fechaFin;
-  Float? importe;
+  String? fechaInicio;
+  String? fechaFin;
+  int? importe; // hay que ponerlo a float
   String? dni_cliente;
 
   Reserva({
