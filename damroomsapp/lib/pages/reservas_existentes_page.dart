@@ -105,26 +105,65 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
 
   // Widget que muestra los clientes
   Widget _crearClientes(List<dynamic> clientes) {
-    return SizedBox(
-      height: 200.0,
-      child: PageView.builder(
-          controller: PageController(viewportFraction: 0.3, initialPage: 1),
-          itemCount: clientes.length,
-          pageSnapping: false,
-          itemBuilder: (context, i) => _actorTarjeta(clientes[i], context)),
+    // return SizedBox(
+    //   height: 200.0,
+    //   child: PageView.builder(
+    //       controller: PageController(viewportFraction: 0.3, initialPage: 1),
+    //       itemCount: clientes.length,
+    //       pageSnapping: false,
+    //       itemBuilder: (context, i) => _actorTarjeta(clientes[i], context)),
+    // );
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: clientes.length,
+      itemBuilder: (BuildContext context, int index) {
+        final nombre = clientes[index].nombre;
+        final apellidos = clientes[index].apellidos;
+
+        return Card(
+          elevation: 20,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading:
+                    const Icon(Icons.bookmarks_outlined, color: Colors.blue),
+                title: Text(nombre + ' ' + apellidos),
+                // subtitle: Text(
+                //     'Esta es una prueba para ver lo que ocurre con una tarjeta que tiene un subtitle bastante largo y que no sabemos como responderá'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TextButton(
+                    child: const Text('Cancelar'),
+                    onPressed: () {},
+                  ),
+                  TextButton(
+                    child: const Text('Ok'),
+                    onPressed: () {},
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _actorTarjeta(Cliente cliente, BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Text(
-            cliente.nombre!,
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _actorTarjeta(Cliente cliente, BuildContext context) {
+  //   return Container(
+  //     child: Row(
+  //       children: [
+  //         Text(
+  //           cliente.nombre!,
+  //           overflow: TextOverflow.ellipsis,
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 }
