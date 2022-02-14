@@ -42,4 +42,13 @@ class Habitacion {
     importe_noche =
         json['importe_noche'] == null ? 0.0 : json['importe_noche'].toDouble();
   }
+
+  factory Habitacion.fromJson(dynamic json) {
+    return Habitacion(
+      numero: json['numero'] as int?,
+      tipo: json['tipo'] as String,
+      caracteristicas: json['caracteristicas'] as String,
+      importe_noche: json['importe_noche'],
+    );
+  }
 }
