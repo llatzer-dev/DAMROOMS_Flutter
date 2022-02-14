@@ -38,12 +38,12 @@ class Reserva {
   });
 
   Reserva.fromJsonMap(Map<String, dynamic> json) {
-    codReserva = json['id'];
+    codReserva = json['idReserva'];
     fechaInicio = json['fechaInicio'];
     fechaFin = json['fechaFin'];
     // importe = json['importe_total'].toDouble();
     importe =
-        json['importe_total'] == null ? 0.0 : json['importe_total'].toDouble();
+        json['importeTotal'] == null ? 0.0 : json['importeTotal'].toDouble();
     dni_cliente = json['dni_cliente'];
   }
 }

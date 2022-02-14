@@ -6,13 +6,19 @@ import 'dart:convert';
 
 class ReservasProvider {
   final String urlTest = 'my-json-server.typicode.com';
+  final String urlTest2 = '/Lazaro000/testClientes/reservas';
+
+  final String urlmain = '192.168.1.2:8080';
+  final String url_peticion = '/reservas';
 
   Future<List<Reserva>> getInfoReservas() async {
-    final url = Uri.https(
-      urlTest,
-      '/Lazaro000/testClientes/reservas',
-      {},
-    );
+    // final url = Uri.https(
+    //   urlTest,
+    //   urlTest2,
+    //   {},
+    // );
+
+    final url = Uri.http(urlmain, url_peticion);
 
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);

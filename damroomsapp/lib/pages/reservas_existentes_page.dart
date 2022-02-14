@@ -224,16 +224,19 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                         Icons.bookmarks_outlined,
                         color: Colors.blue,
                       ),
-                      title: Text(codReserva.toString() +
-                          ' - Reserva'
-                              ' ' +
+                      title: Text(' - Reserva -\n' +
+                          'Numero: ' +
+                          codReserva.toString() +
+                          '\nDel ' +
                           fechaInicio.toString() +
-                          ' ' +
+                          ' a ' +
                           fechaFin.toString() +
-                          ' ' +
-                          importe.toString()),
+                          '\nImporte: ' +
+                          importe.toString() +
+                          '€.'),
                       subtitle: const Text(
                           'Aquí iría la info de la habitacion reservada.'),
+                      isThreeLine: true,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
