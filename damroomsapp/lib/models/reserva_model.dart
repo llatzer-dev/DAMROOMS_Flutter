@@ -3,7 +3,7 @@
 // Date fechaFin
 // float importe
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls
+// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, prefer_typing_uninitialized_variables
 
 import 'dart:ffi';
 
@@ -26,7 +26,7 @@ class Reserva {
   int? codReserva;
   String? fechaInicio;
   String? fechaFin;
-  int? importe; // hay que ponerlo a float
+  var importe;
   String? dni_cliente;
 
   Reserva({
@@ -41,7 +41,9 @@ class Reserva {
     codReserva = json['id'];
     fechaInicio = json['fechaInicio'];
     fechaFin = json['fechaFin'];
-    importe = json['importe_total'];
+    // importe = json['importe_total'].toDouble();
+    importe =
+        json['importe_total'] == null ? 0.0 : json['importe_total'].toDouble();
     dni_cliente = json['dni_cliente'];
   }
 }

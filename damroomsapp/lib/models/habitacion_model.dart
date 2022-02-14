@@ -3,7 +3,7 @@
 // string caracteristicas
 // float importe_noche
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls
+// ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, prefer_typing_uninitialized_variables
 
 import 'dart:ffi';
 
@@ -26,7 +26,7 @@ class Habitacion {
   int? numero;
   String? tipo;
   String? caracteristicas;
-  Float? importe_noche;
+  var importe_noche;
 
   Habitacion(
       {required this.numero,
@@ -39,5 +39,7 @@ class Habitacion {
     tipo = json['tipo'];
     caracteristicas = json['caracteristicas'];
     importe_noche = json['importe_noche'];
+    importe_noche =
+        json['importe_noche'] == null ? 0.0 : json['importe_noche'].toDouble();
   }
 }

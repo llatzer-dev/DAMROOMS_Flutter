@@ -138,7 +138,7 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                   color: Colors.blue,
                 ),
                 title: Text(nombre + ' ' + apellidos),
-                // subtitle: Text(
+                // subtitle: const Text(
                 //     'Esta es una prueba para ver lo que ocurre con una tarjeta que tiene un subtitle bastante largo y que no sabemos como responderá'),
               ),
               Row(
@@ -195,6 +195,7 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
   // Widget que muestra los clientes
   Widget _crearReservas(List<dynamic> reservas) {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: reservas.length,
       itemBuilder: (BuildContext context, int index) {
@@ -205,46 +206,55 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
         final dniCliente = reservas[index].dni_cliente;
 
         return Card(
-          elevation: 20,
+          elevation: 100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(
-                  Icons.bookmarks_outlined,
-                  color: Colors.blue,
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 100,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                title: Text(
-                  codReserva.toString() +
-                      ' ' +
-                      fechaInicio.toString() +
-                      ' ' +
-                      fechaFin.toString() +
-                      ' ' +
-                      importe.toString() +
-                      ' ' +
-                      dniCliente.toString(),
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(
+                        Icons.bookmarks_outlined,
+                        color: Colors.blue,
+                      ),
+                      title: Text(codReserva.toString() +
+                          ' - Reserva'
+                              ' ' +
+                          fechaInicio.toString() +
+                          ' ' +
+                          fechaFin.toString() +
+                          ' ' +
+                          importe.toString()),
+                      subtitle: const Text(
+                          'Aquí iría la info de la habitacion reservada.'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        TextButton(
+                          child: const Text('Ok'),
+                          onPressed: () {},
+                        ),
+                        TextButton(
+                          child: const Text('Cancelar'),
+                          onPressed: () {},
+                        ),
+                        TextButton(
+                          child: const Text('Prueba'),
+                          onPressed: () {},
+                        )
+                      ],
+                    )
+                  ],
                 ),
-                // subtitle: Text(
-                //     'Esta es una prueba para ver lo que ocurre con una tarjeta que tiene un subtitle bastante largo y que no sabemos como responderá'),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  TextButton(
-                    child: const Text('Cancelar'),
-                    onPressed: () {},
-                  ),
-                  TextButton(
-                    child: const Text('Ok'),
-                    onPressed: () {},
-                  )
-                ],
-              )
-            ],
-          ),
+              )),
         );
       },
     );
