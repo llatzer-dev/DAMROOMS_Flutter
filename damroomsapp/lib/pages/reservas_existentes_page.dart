@@ -199,19 +199,25 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       shrinkWrap: true,
       itemCount: reservas.length,
       itemBuilder: (BuildContext context, int index) {
+        // Datos de la reserva
         final codReserva = reservas[index].codReserva;
         final fechaInicio = reservas[index].fechaInicio;
         final fechaFin = reservas[index].fechaFin;
         final importe = reservas[index].importe;
-        final dniCliente = reservas[index].dni_cliente;
+        // final dniCliente = reservas[index].dni_cliente;
+
+        // Datos de la habitacion de la reserva
+        final habCaracteristicas = reservas[index].habitacion.caracteristicas;
+        final habTipo = reservas[index].habitacion.tipo;
 
         return Card(
+          color: Colors.blue,
           elevation: 100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(1.0),
               child: Card(
                 elevation: 100,
                 shape: RoundedRectangleBorder(
@@ -224,34 +230,47 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                         Icons.bookmarks_outlined,
                         color: Colors.blue,
                       ),
-                      title: Text(' - Reserva -\n' +
-                          'Numero: ' +
-                          codReserva.toString() +
-                          '\nDel ' +
-                          fechaInicio.toString() +
-                          ' a ' +
-                          fechaFin.toString() +
-                          '\nImporte: ' +
-                          importe.toString() +
-                          '€.'),
-                      subtitle: const Text(
-                          'Aquí iría la info de la habitacion reservada.'),
-                      isThreeLine: true,
+                      title: Text(
+                        '               ― Reserva ―\n' +
+                            'Numero: ' +
+                            codReserva.toString() +
+                            '\nDel ' +
+                            fechaInicio.toString() +
+                            ' al ' +
+                            fechaFin.toString() +
+                            '\nImporte: ' +
+                            importe.toString() +
+                            '€.',
+                      ),
+                      // subtitle: const Text(
+                      //     'Aquí iría la info de la habitacion reservada.'),
+                      // isThreeLine: true,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         TextButton(
-                          child: const Text('Ok'),
-                          onPressed: () {},
-                        ),
-                        TextButton(
-                          child: const Text('Cancelar'),
-                          onPressed: () {},
-                        ),
-                        TextButton(
-                          child: const Text('Prueba'),
-                          onPressed: () {},
+                          child: const Text('Ver habitación'),
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(32),
+                                      child: Column(
+                                        children: [
+                                          ListTile(
+                                            title: Text(
+                                              habTipo.toString(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
                         )
                       ],
                     )

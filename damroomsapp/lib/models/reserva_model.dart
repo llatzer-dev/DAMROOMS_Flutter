@@ -5,8 +5,6 @@
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, prefer_typing_uninitialized_variables
 
-import 'dart:ffi';
-
 import 'package:damroomsapp/models/habitacion_model.dart';
 
 class Reservas {
@@ -29,7 +27,6 @@ class Reserva {
   String? fechaInicio;
   String? fechaFin;
   var importe;
-  // String? dni_cliente;
   Habitacion? habitacion;
 
   Reserva(
@@ -37,26 +34,22 @@ class Reserva {
       required this.fechaInicio,
       required this.fechaFin,
       required this.importe,
-      // required this.dni_cliente,
       required this.habitacion});
 
   Reserva.fromJsonMap(Map<String, dynamic> json) {
     codReserva = json['idReserva'];
     fechaInicio = json['fechaInicio'];
     fechaFin = json['fechaFin'];
-    // importe = json['importe_total'].toDouble();
     importe =
         json['importeTotal'] == null ? 0.0 : json['importeTotal'].toDouble();
-    // dni_cliente = json['dni_cliente'];
-    // habitacion = json['habitacion'];
 
     if (json['habitacion'] != null) {
-      print("------------------------------------");
-      print(json['habitacion']);
-      this.habitacion = Habitacion.fromJson(json['habitacion']);
+      // print("------------------------------------");
+      // print(json['habitacion']);
+      habitacion = Habitacion.fromJson(json['habitacion']);
 
-      print("***************************************************");
-      print(this.habitacion.toString());
+      // print("***************************************************");
+      // print(this.habitacion.toString());
     }
   }
 }
