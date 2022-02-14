@@ -7,6 +7,8 @@
 
 import 'dart:ffi';
 
+import 'package:damroomsapp/models/habitacion_model.dart';
+
 class Reservas {
   List<Reserva> reservas = [];
 
@@ -27,15 +29,16 @@ class Reserva {
   String? fechaInicio;
   String? fechaFin;
   var importe;
-  String? dni_cliente;
+  // String? dni_cliente;
+  Habitacion? habitacion;
 
-  Reserva({
-    required this.codReserva,
-    required this.fechaInicio,
-    required this.fechaFin,
-    required this.importe,
-    required this.dni_cliente,
-  });
+  Reserva(
+      {required this.codReserva,
+      required this.fechaInicio,
+      required this.fechaFin,
+      required this.importe,
+      // required this.dni_cliente,
+      required this.habitacion});
 
   Reserva.fromJsonMap(Map<String, dynamic> json) {
     codReserva = json['idReserva'];
@@ -44,6 +47,16 @@ class Reserva {
     // importe = json['importe_total'].toDouble();
     importe =
         json['importeTotal'] == null ? 0.0 : json['importeTotal'].toDouble();
-    dni_cliente = json['dni_cliente'];
+    // dni_cliente = json['dni_cliente'];
+    // habitacion = json['habitacion'];
+
+    if (json['habitacion'] != null) {
+      print("------------------------------------");
+      print(json['habitacion']);
+      this.habitacion = Habitacion.fromJson(json['habitacion']);
+
+      print("***************************************************");
+      print(this.habitacion.toString());
+    }
   }
 }
