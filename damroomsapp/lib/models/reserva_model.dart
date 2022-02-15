@@ -28,6 +28,7 @@ class Reserva {
   String? fechaInicio;
   String? fechaFin;
   var importe;
+  String? estado;
   Habitacion? habitacion;
   Cliente? cliente;
 
@@ -44,6 +45,7 @@ class Reserva {
     fechaFin = json['fechaFin'];
     importe =
         json['importeTotal'] == null ? 0.0 : json['importeTotal'].toDouble();
+    estado = json['fechaFin'];
 
     if (json['habitacion'] != null) {
       habitacion = Habitacion.fromJson(json['habitacion']);

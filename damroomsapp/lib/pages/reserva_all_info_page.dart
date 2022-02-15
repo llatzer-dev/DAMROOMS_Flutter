@@ -55,6 +55,13 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
               endIndent: 10,
             ),
             _infoCliente(c!, msgError),
+            const Divider(
+              height: 50,
+              thickness: 5,
+              indent: 10,
+              endIndent: 10,
+            ),
+            _botonCheckIn(r),
           ],
         ),
       ),
@@ -198,5 +205,31 @@ Widget _infoCliente(Cliente c, String error) {
         ),
       )
     ],
+  );
+}
+
+Widget _botonCheckIn(Reserva r) {
+  final ButtonStyle style = ElevatedButton.styleFrom(
+    textStyle: const TextStyle(
+      fontSize: 20,
+    ),
+  );
+
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          height: 40,
+          child: ElevatedButton(
+            style: style,
+            onPressed: () => "",
+            child: const Text(
+              'Check In',
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }

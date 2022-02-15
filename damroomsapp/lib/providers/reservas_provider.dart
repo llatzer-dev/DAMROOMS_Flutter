@@ -5,9 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 
 class ReservasProvider {
-  final String urlTest = 'my-json-server.typicode.com';
-  final String urlTest2 = '/Lazaro000/testClientes/reservas';
-
   final String urlmain = '192.168.1.2:8080';
   final String url_peticion = '/reservas';
 
