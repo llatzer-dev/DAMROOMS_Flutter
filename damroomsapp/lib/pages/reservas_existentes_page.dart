@@ -15,6 +15,7 @@ class ReservasExistentesScreen extends StatefulWidget {
 
 class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
   String _fecha = '';
+  bool fechaSeleccionada = false;
 
   final TextEditingController _inputFieldDateController =
       TextEditingController();
@@ -33,8 +34,8 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
           _crearFecha(context),
           const Divider(),
           _testResultado(),
-          _crearCliente(),
-          _crearReserva(),
+          const Divider(),
+          _crearReserva(fechaSeleccionada),
         ],
       ),
     );
@@ -54,8 +55,10 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       if (picked != null) {
         setState(
           () {
-            _fecha = picked.toString();
+            _fecha = picked.toString().split(' ').first;
             _inputFieldDateController.text = _fecha;
+
+            fechaSeleccionada = true;
           },
         );
       }
@@ -109,15 +112,6 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
 
   // Widget que muestra los clientes
   Widget _crearClientes(List<dynamic> clientes) {
-    // return SizedBox(
-    //   height: 200.0,
-    //   child: PageView.builder(
-    //       controller: PageController(viewportFraction: 0.3, initialPage: 1),
-    //       itemCount: clientes.length,
-    //       pageSnapping: false,
-    //       itemBuilder: (context, i) => _actorTarjeta(clientes[i], context)),
-    // );
-
     return ListView.builder(
       shrinkWrap: true,
       itemCount: clientes.length,
@@ -137,19 +131,23 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                   Icons.bookmarks_outlined,
                   color: Colors.blue,
                 ),
-                title: Text(nombre + ' ' + apellidos),
-                // subtitle: const Text(
-                //     'Esta es una prueba para ver lo que ocurre con una tarjeta que tiene un subtitle bastante largo y que no sabemos como responderá'),
+                title: Text(
+                  nombre + ' ' + apellidos,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   TextButton(
-                    child: const Text('Cancelar'),
+                    child: const Text(
+                      'Cancelar',
+                    ),
                     onPressed: () {},
                   ),
                   TextButton(
-                    child: const Text('Ok'),
+                    child: const Text(
+                      'Ok',
+                    ),
                     onPressed: () {},
                   )
                 ],
@@ -161,35 +159,26 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
     );
   }
 
-  // Widget _actorTarjeta(Cliente cliente, BuildContext context) {
-  //   return Container(
-  //     child: Row(
-  //       children: [
-  //         Text(
-  //           cliente.nombre!,
-  //           overflow: TextOverflow.ellipsis,
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   // Widget conseguir los clientes
-  Widget _crearReserva() {
-    final reservasProvider = ReservasProvider();
+  Widget _crearReserva(bool fechaSelected) {
+    if (fechaSelected == true) {
+      final reservasProvider = ReservasProvider();
 
-    return FutureBuilder(
-      future: reservasProvider.getInfoReservas(),
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-        if (snapshot.hasData) {
-          return _crearReservas(snapshot.data!);
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
+      return FutureBuilder(
+        future: reservasProvider.getInfoReservas(),
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+          if (snapshot.hasData) {
+            return _crearReservas(snapshot.data!);
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      );
+    }
+
+    return Container();
   }
 
   // Widget que muestra los clientes
@@ -204,19 +193,23 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
         final fechaInicio = reservas[index].fechaInicio;
         final fechaFin = reservas[index].fechaFin;
         final importe = reservas[index].importe;
-        // final dniCliente = reservas[index].dni_cliente;
 
         // Datos de la habitacion de la reserva
-        final habCaracteristicas = reservas[index].habitacion.caracteristicas;
+        final habNumero = reservas[index].habitacion.numero;
         final habTipo = reservas[index].habitacion.tipo;
+        final habCaracteristicas = reservas[index].habitacion.caracteristicas;
+        final habImporteNoche = reservas[index].habitacion.importe_noche;
 
-        return Card(
-          color: Colors.blue,
-          elevation: 100,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
+        if (_fecha.toString().compareTo(fechaInicio.toString()) == 0) {
+          print('LA FECHA ES IGUAL');
+
+          return Card(
+            color: Colors.blue,
+            elevation: 100,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
               padding: const EdgeInsets.all(1.0),
               child: Card(
                 elevation: 100,
@@ -242,9 +235,6 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                             importe.toString() +
                             '€.',
                       ),
-                      // subtitle: const Text(
-                      //     'Aquí iría la info de la habitacion reservada.'),
-                      // isThreeLine: true,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -253,31 +243,61 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                           child: const Text('Ver habitación'),
                           onPressed: () {
                             showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(32),
-                                      child: Column(
-                                        children: [
-                                          ListTile(
-                                            title: Text(
-                                              habTipo.toString(),
-                                            ),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(32),
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            'Numero de habitación: $habNumero',
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            'Tipo de habitación: $habTipo',
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            'Características: $habCaracteristicas',
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            'Importe por noche: $habImporteNoche',
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                });
+                                  ),
+                                );
+                              },
+                            );
                           },
                         )
                       ],
                     )
                   ],
                 ),
-              )),
-        );
+              ),
+            ),
+          );
+        } else {
+          print('LA FECHA NO ES IGUAL');
+
+          return Container();
+        }
       },
     );
   }
