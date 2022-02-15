@@ -42,4 +42,14 @@ class Cliente {
     direccion = json['direccion'];
     telefono = json['teleono'];
   }
+
+  factory Cliente.fromJson(dynamic json) {
+    return Cliente(
+      dni: json['dni'] as String,
+      nombre: json['nombre'] as String,
+      apellidos: json['apellidos'] as String,
+      direccion: json['direccion'] as String,
+      telefono: json['telefono'] as int?,
+    );
+  }
 }

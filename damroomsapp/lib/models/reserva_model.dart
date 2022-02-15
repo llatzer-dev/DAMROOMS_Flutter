@@ -5,6 +5,7 @@
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, prefer_typing_uninitialized_variables
 
+import 'package:damroomsapp/models/cliente_model.dart';
 import 'package:damroomsapp/models/habitacion_model.dart';
 
 class Reservas {
@@ -28,6 +29,7 @@ class Reserva {
   String? fechaFin;
   var importe;
   Habitacion? habitacion;
+  Cliente? cliente;
 
   Reserva(
       {required this.codReserva,
@@ -44,12 +46,11 @@ class Reserva {
         json['importeTotal'] == null ? 0.0 : json['importeTotal'].toDouble();
 
     if (json['habitacion'] != null) {
-      // print("------------------------------------");
-      // print(json['habitacion']);
       habitacion = Habitacion.fromJson(json['habitacion']);
+    }
 
-      // print("***************************************************");
-      // print(this.habitacion.toString());
+    if (json['clientes'] != null) {
+      cliente = Cliente.fromJson(json['clientes']);
     }
   }
 }
