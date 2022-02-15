@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:damroomsapp/pages/reserva_all_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       ],
       initialRoute: 'reservas_existentes_page',
       routes: {
-        'reservas_existentes_page': (_) => const ReservasExistentesScreen()
+        'reservas_existentes_page': (_) => const ReservasExistentesScreen(),
+        'reserva_all_info_page': (_) => const ReservaAllInfoScreen(),
       },
     );
   }

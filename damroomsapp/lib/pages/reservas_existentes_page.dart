@@ -1,4 +1,5 @@
 import 'package:damroomsapp/models/cliente_model.dart';
+import 'package:damroomsapp/pages/reserva_all_info_page.dart';
 import 'package:damroomsapp/providers/cliente_provider.dart';
 import 'package:damroomsapp/providers/reservas_provider.dart';
 import 'package:flutter/material.dart';
@@ -189,6 +190,7 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       itemCount: reservas.length,
       itemBuilder: (BuildContext context, int index) {
         // Datos de la reserva
+        final reserva = reservas[index];
         final codReserva = reservas[index].codReserva;
         final fechaInicio = reservas[index].fechaInicio;
         final fechaFin = reservas[index].fechaFin;
@@ -285,7 +287,13 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                               },
                             );
                           },
-                        )
+                        ),
+                        TextButton(
+                          child: const Text('+ Info'),
+                          onPressed: () => Navigator.pushNamed(
+                              context, 'reserva_all_info_page',
+                              arguments: reserva),
+                        ),
                       ],
                     )
                   ],
