@@ -52,4 +52,12 @@ class Cliente {
       telefono: json['telefono'] as int?,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'dni': dni,
+        'nombre': nombre,
+        'apellidos': apellidos,
+        'direccion': direccion,
+        'telefono': telefono,
+      };
 }

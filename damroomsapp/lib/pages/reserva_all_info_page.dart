@@ -1,6 +1,7 @@
 import 'package:damroomsapp/models/cliente_model.dart';
 import 'package:damroomsapp/models/habitacion_model.dart';
 import 'package:damroomsapp/models/reserva_model.dart';
+import 'package:damroomsapp/providers/reservas_provider.dart';
 import 'package:flutter/material.dart';
 
 class ReservaAllInfoScreen extends StatefulWidget {
@@ -61,7 +62,9 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
               indent: 10,
               endIndent: 10,
             ),
-            _botonCheckIn(r),
+            if (r.estado.toString().compareTo('Pendiente') == 0)
+              _botonCheckIn(r),
+            if (r.estado.toString().compareTo('Activa') == 0) _botonCheckOut(r),
           ],
         ),
       ),
@@ -75,6 +78,7 @@ Widget _infoReserva(Reserva r, String error) {
   final fechaInReserva = r.fechaInicio ?? error;
   final fechaFinReserva = r.fechaFin ?? error;
   final importeReserva = r.importe ?? error;
+  final estadoReserva = r.estado ?? error;
 
   // Columna con los datos de RESERVA
   return Column(
@@ -107,7 +111,12 @@ Widget _infoReserva(Reserva r, String error) {
       ),
       ListTile(
         title: Text(
-          'Importe: $importeReserva €',
+          'Importe total: $importeReserva €',
+        ),
+      ),
+      ListTile(
+        title: Text(
+          'Estado: $estadoReserva',
         ),
       ),
     ],
@@ -213,6 +222,9 @@ Widget _botonCheckIn(Reserva r) {
     textStyle: const TextStyle(
       fontSize: 20,
     ),
+    primary: Colors.blue,
+    onPrimary: Colors.white,
+    shape: const StadiumBorder(),
   );
 
   return Center(
@@ -223,7 +235,7 @@ Widget _botonCheckIn(Reserva r) {
           height: 40,
           child: ElevatedButton(
             style: style,
-            onPressed: () => "",
+            onPressed: () => _crearChange(r),
             child: const Text(
               'Check In',
             ),
@@ -232,4 +244,85 @@ Widget _botonCheckIn(Reserva r) {
       ],
     ),
   );
+}
+
+Widget _botonCheckOut(Reserva r) {
+  final ButtonStyle style = ElevatedButton.styleFrom(
+    textStyle: const TextStyle(
+      fontSize: 20,
+    ),
+    primary: Colors.blue,
+    onPrimary: Colors.white,
+    shape: const StadiumBorder(),
+  );
+
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          height: 40,
+          child: ElevatedButton(
+            style: style,
+            onPressed: () => _crearChange(r),
+            child: const Text(
+              'Check Out',
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _crearChange(Reserva r) {
+  final reservasProvider = ReservasProvider();
+
+  return FutureBuilder(
+    future: reservasProvider.changeCheckIn(r),
+    builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
+      if (snapshot.hasData) {
+        return _mostrarAviso(context, snapshot.data!);
+      } else {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    },
+  );
+}
+
+Widget _mostrarAviso(BuildContext context, Reserva r) {
+  final estadoReserva = r.estado;
+
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Título'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+                'Este es el contenido de la caja de la alerta. \n $estadoReserva'),
+            const FlutterLogo(size: 70)
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Cancelar'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          TextButton(
+            child: const Text('Ok'),
+            onPressed: () => Navigator.of(context).pop(),
+          )
+        ],
+      );
+    },
+  );
+
+  return Container();
 }

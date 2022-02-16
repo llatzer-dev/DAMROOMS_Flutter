@@ -275,7 +275,7 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
                                         ),
                                         ListTile(
                                           title: Text(
-                                            'Importe por noche: $habImporteNoche',
+                                            'Importe por noche: $habImporteNoche €',
                                             style:
                                                 const TextStyle(fontSize: 18),
                                           ),

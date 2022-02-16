@@ -45,7 +45,7 @@ class Reserva {
     fechaFin = json['fechaFin'];
     importe =
         json['importeTotal'] == null ? 0.0 : json['importeTotal'].toDouble();
-    estado = json['fechaFin'];
+    estado = json['estado'];
 
     if (json['habitacion'] != null) {
       habitacion = Habitacion.fromJson(json['habitacion']);
@@ -55,4 +55,14 @@ class Reserva {
       cliente = Cliente.fromJson(json['clientes']);
     }
   }
+
+  Map<String, dynamic> toJson() => {
+        'idReserva': codReserva,
+        'fechaInicio': fechaInicio,
+        'fechaFin': fechaFin,
+        'importeTotal': importe,
+        'estado': estado,
+        'habitacion': habitacion!.toJson(),
+        'clientes': cliente!.toJson()
+      };
 }

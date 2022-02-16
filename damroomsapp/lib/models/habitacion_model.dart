@@ -51,4 +51,11 @@ class Habitacion {
       importe_noche: json['importe_noche'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'numero': numero,
+        'tipo': tipo,
+        'caracteristicas': caracteristicas,
+        'importe_noche': importe_noche,
+      };
 }

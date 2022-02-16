@@ -6,9 +6,10 @@ import 'dart:convert';
 
 class ReservasProvider {
   final String urlmain = '192.168.1.2:8080';
-  final String url_peticion = '/reservas';
+  String url_peticion = '';
 
   Future<List<Reserva>> getInfoReservas() async {
+    url_peticion = '/reservas';
     final url = Uri.http(urlmain, url_peticion);
 
     final resp = await http.get(url);
@@ -19,5 +20,30 @@ class ReservasProvider {
     final listaReservas = Reservas.fromJsonList(decodedData);
 
     return listaReservas.reservas;
+  }
+
+  Future<Reserva> changeCheckIn(Reserva r) async {
+    final idReserva = r.codReserva.toString();
+    url_peticion = '/reservas/$idReserva/checkIn';
+
+    final url = Uri.http(urlmain, url_peticion);
+
+    print('-------------------------');
+    print(r.toJson());
+
+    final resp = await http.put(
+      url,
+      headers: {"Content-type": "application/json"},
+      // body: jsonEncode(r.toJson()),
+      body: json.encode({}),
+      encoding: Encoding.getByName("utf-8"),
+    );
+    final decodedData = json.decode(resp.body);
+
+    print(decodedData);
+
+    final reserva = Reserva.fromJsonMap(decodedData);
+
+    return reserva;
   }
 }
