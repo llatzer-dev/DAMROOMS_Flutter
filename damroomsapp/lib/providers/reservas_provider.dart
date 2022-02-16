@@ -28,8 +28,27 @@ class ReservasProvider {
 
     final url = Uri.http(urlmain, url_peticion);
 
-    print('-------------------------');
-    print(r.toJson());
+    final resp = await http.put(
+      url,
+      headers: {"Content-type": "application/json"},
+      // body: jsonEncode(r.toJson()),
+      body: json.encode({}),
+      encoding: Encoding.getByName("utf-8"),
+    );
+    final decodedData = json.decode(resp.body);
+
+    print(decodedData);
+
+    final reserva = Reserva.fromJsonMap(decodedData);
+
+    return reserva;
+  }
+
+  Future<Reserva> changeCheckOut(Reserva r) async {
+    final idReserva = r.codReserva.toString();
+    url_peticion = '/reservas/$idReserva/checkOut';
+
+    final url = Uri.http(urlmain, url_peticion);
 
     final resp = await http.put(
       url,

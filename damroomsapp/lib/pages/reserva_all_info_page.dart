@@ -65,6 +65,8 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
             if (r.estado.toString().compareTo('Pendiente') == 0)
               _botonCheckIn(r),
             if (r.estado.toString().compareTo('Activa') == 0) _botonCheckOut(r),
+            if (r.estado.toString().compareTo('Completada') == 0)
+              const Text('Reserva completada'),
           ],
         ),
       ),
@@ -277,22 +279,44 @@ Widget _botonCheckOut(Reserva r) {
 
 Widget _crearChange(Reserva r) {
   final reservasProvider = ReservasProvider();
+  final estadoReserva = r.estado;
 
-  return FutureBuilder(
-    future: reservasProvider.changeCheckIn(r),
-    builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
-      if (snapshot.hasData) {
-        return _mostrarAviso(context, snapshot.data!);
-      } else {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }
-    },
-  );
+  if (estadoReserva.toString().compareTo('Pendiente') == 0) {
+    return FutureBuilder(
+      future: reservasProvider.changeCheckIn(r),
+      builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
+        if (snapshot.hasData) {
+          _mostrarAviso(context, snapshot.data!);
+          return Container();
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  if (estadoReserva.toString().compareTo('Activa') == 0) {
+    return FutureBuilder(
+      future: reservasProvider.changeCheckOut(r),
+      builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
+        if (snapshot.hasData) {
+          _mostrarAviso(context, r);
+          return Container();
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  return Container();
 }
 
-Widget _mostrarAviso(BuildContext context, Reserva r) {
+void _mostrarAviso(BuildContext context, Reserva r) {
   final estadoReserva = r.estado;
 
   showDialog(
@@ -323,6 +347,4 @@ Widget _mostrarAviso(BuildContext context, Reserva r) {
       );
     },
   );
-
-  return Container();
 }
