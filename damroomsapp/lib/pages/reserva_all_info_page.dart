@@ -1,6 +1,7 @@
 import 'package:damroomsapp/models/cliente_model.dart';
 import 'package:damroomsapp/models/habitacion_model.dart';
 import 'package:damroomsapp/models/reserva_model.dart';
+import 'package:damroomsapp/pages/factura_page.dart';
 import 'package:damroomsapp/providers/reservas_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -24,13 +25,13 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
         children: [
-          allInfo(reserva),
+          allInfo(reserva, context),
         ],
       ),
     );
   }
 
-  Widget allInfo(Reserva r) {
+  Widget allInfo(Reserva r, BuildContext context) {
     String msgError = 'Error al cargar los datos';
 
     final h = r.habitacion;
@@ -64,7 +65,8 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
             ),
             if (r.estado.toString().compareTo('Pendiente') == 0)
               _botonCheckIn(r),
-            if (r.estado.toString().compareTo('Activa') == 0) _botonCheckOut(r),
+            if (r.estado.toString().compareTo('Activa') == 0)
+              _botonCheckOut(r, context),
             if (r.estado.toString().compareTo('Completada') == 0)
               const Text('Reserva completada'),
           ],
@@ -248,7 +250,7 @@ Widget _botonCheckIn(Reserva r) {
   );
 }
 
-Widget _botonCheckOut(Reserva r) {
+Widget _botonCheckOut(Reserva r, BuildContext context) {
   final ButtonStyle style = ElevatedButton.styleFrom(
     textStyle: const TextStyle(
       fontSize: 20,
@@ -266,7 +268,8 @@ Widget _botonCheckOut(Reserva r) {
           height: 40,
           child: ElevatedButton(
             style: style,
-            onPressed: () => _crearChange(r),
+            onPressed: () =>
+                Navigator.pushNamed(context, 'factura_page', arguments: r),
             child: const Text(
               'Check Out',
             ),
