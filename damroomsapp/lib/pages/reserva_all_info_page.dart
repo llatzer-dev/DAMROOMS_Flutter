@@ -74,6 +74,70 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
       ),
     );
   }
+
+  Widget _botonCheckIn(Reserva r) {
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(
+        fontSize: 20,
+      ),
+      primary: Colors.blue,
+      onPrimary: Colors.white,
+      shape: const StadiumBorder(),
+    );
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          SizedBox(
+            height: 40,
+            child: ElevatedButton(
+              style: style,
+              onPressed: () {
+                setState(() {
+                  _ReservaAllInfoScreenState();
+                });
+                _crearChange(r);
+              },
+              child: const Text(
+                'Check In',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _botonCheckOut(Reserva r, BuildContext context) {
+  final ButtonStyle style = ElevatedButton.styleFrom(
+    textStyle: const TextStyle(
+      fontSize: 20,
+    ),
+    primary: Colors.blue,
+    onPrimary: Colors.white,
+    shape: const StadiumBorder(),
+  );
+
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        SizedBox(
+          height: 40,
+          child: ElevatedButton(
+            style: style,
+            onPressed: () =>
+                Navigator.pushNamed(context, 'factura_page', arguments: r),
+            child: const Text(
+              'Check Out',
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget _infoReserva(Reserva r, String error) {
@@ -218,65 +282,6 @@ Widget _infoCliente(Cliente c, String error) {
         ),
       )
     ],
-  );
-}
-
-Widget _botonCheckIn(Reserva r) {
-  final ButtonStyle style = ElevatedButton.styleFrom(
-    textStyle: const TextStyle(
-      fontSize: 20,
-    ),
-    primary: Colors.blue,
-    onPrimary: Colors.white,
-    shape: const StadiumBorder(),
-  );
-
-  return Center(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          height: 40,
-          child: ElevatedButton(
-            style: style,
-            onPressed: () => _crearChange(r),
-            child: const Text(
-              'Check In',
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _botonCheckOut(Reserva r, BuildContext context) {
-  final ButtonStyle style = ElevatedButton.styleFrom(
-    textStyle: const TextStyle(
-      fontSize: 20,
-    ),
-    primary: Colors.blue,
-    onPrimary: Colors.white,
-    shape: const StadiumBorder(),
-  );
-
-  return Center(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(
-          height: 40,
-          child: ElevatedButton(
-            style: style,
-            onPressed: () =>
-                Navigator.pushNamed(context, 'factura_page', arguments: r),
-            child: const Text(
-              'Check Out',
-            ),
-          ),
-        ),
-      ],
-    ),
   );
 }
 
