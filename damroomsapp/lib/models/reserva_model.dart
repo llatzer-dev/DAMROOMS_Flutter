@@ -51,8 +51,8 @@ class Reserva {
       habitacion = Habitacion.fromJson(json['habitacion']);
     }
 
-    if (json['clientes'] != null) {
-      cliente = Cliente.fromJson(json['clientes']);
+    if (json['cliente'] != null) {
+      cliente = Cliente.fromJson(json['cliente']);
     }
   }
 

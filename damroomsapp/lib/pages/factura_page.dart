@@ -6,7 +6,6 @@ import 'package:damroomsapp/models/reserva_model.dart';
 import 'package:damroomsapp/providers/reservas_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class FacturaPage extends StatefulWidget {
   const FacturaPage({Key? key}) : super(key: key);
@@ -212,7 +211,7 @@ Widget _botonCheckOut(Reserva r, BuildContext context) {
           child: ElevatedButton(
             style: style,
             onPressed: () {
-              _crearChange(r);
+              _crearChange(r, context);
             },
             child: const Text(
               'Finalizar',
@@ -224,7 +223,7 @@ Widget _botonCheckOut(Reserva r, BuildContext context) {
   );
 }
 
-Widget _crearChange(Reserva r) {
+Widget _crearChange(Reserva r, BuildContext context) {
   final reservasProvider = ReservasProvider();
   final estadoReserva = r.estado;
   if (estadoReserva.toString().compareTo('Activa') == 0) {
@@ -232,6 +231,7 @@ Widget _crearChange(Reserva r) {
       future: reservasProvider.changeCheckOut(r),
       builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
         if (snapshot.hasData) {
+          Navigator.pushNamed(context, 'reservas_existentes_page');
           return Text('Reserva finalizada');
         } else {
           return const Center(

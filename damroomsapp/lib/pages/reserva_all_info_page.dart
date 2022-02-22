@@ -1,7 +1,6 @@
 import 'package:damroomsapp/models/cliente_model.dart';
 import 'package:damroomsapp/models/habitacion_model.dart';
 import 'package:damroomsapp/models/reserva_model.dart';
-import 'package:damroomsapp/pages/factura_page.dart';
 import 'package:damroomsapp/providers/reservas_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +34,7 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
     String msgError = 'Error al cargar los datos';
 
     final h = r.habitacion;
-    final c = r.cliente;
+    final c = r.cliente!;
 
     return Container(
       child: Padding(
@@ -43,26 +42,10 @@ class _ReservaAllInfoScreenState extends State<ReservaAllInfoScreen> {
         child: Column(
           children: [
             _infoReserva(r, msgError),
-            const Divider(
-              height: 50,
-              thickness: 5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            divider(),
             _infoHabitacion(h!, msgError),
-            const Divider(
-              height: 50,
-              thickness: 5,
-              indent: 10,
-              endIndent: 10,
-            ),
-            _infoCliente(c!, msgError),
-            const Divider(
-              height: 50,
-              thickness: 5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            divider(),
+            _infoCliente(c, msgError),
             if (r.estado.toString().compareTo('Pendiente') == 0)
               _botonCheckIn(r),
             if (r.estado.toString().compareTo('Activa') == 0)
@@ -294,7 +277,6 @@ Widget _crearChange(Reserva r) {
       future: reservasProvider.changeCheckIn(r),
       builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
         if (snapshot.hasData) {
-          _mostrarAviso(context, snapshot.data!);
           return Container();
         } else {
           return const Center(
@@ -310,7 +292,6 @@ Widget _crearChange(Reserva r) {
       future: reservasProvider.changeCheckOut(r),
       builder: (BuildContext context, AsyncSnapshot<Reserva> snapshot) {
         if (snapshot.hasData) {
-          _mostrarAviso(context, r);
           return Container();
         } else {
           return const Center(
@@ -324,35 +305,11 @@ Widget _crearChange(Reserva r) {
   return Container();
 }
 
-void _mostrarAviso(BuildContext context, Reserva r) {
-  final estadoReserva = r.estado;
-
-  showDialog(
-    context: context,
-    barrierDismissible: true,
-    builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('Título'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-                'Este es el contenido de la caja de la alerta. \n $estadoReserva'),
-            const FlutterLogo(size: 70)
-          ],
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Cancelar'),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          TextButton(
-            child: const Text('Ok'),
-            onPressed: () => Navigator.of(context).pop(),
-          )
-        ],
-      );
-    },
+Widget divider() {
+  return const Divider(
+    height: 50,
+    thickness: 5,
+    indent: 10,
+    endIndent: 10,
   );
 }

@@ -15,8 +15,6 @@ class ReservasProvider {
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
 
-    print(decodedData);
-
     final listaReservas = Reservas.fromJsonList(decodedData);
 
     return listaReservas.reservas;
@@ -38,8 +36,6 @@ class ReservasProvider {
 
     final decodedData = json.decode(resp.body);
 
-    print(decodedData);
-
     final reserva = Reserva.fromJsonMap(decodedData);
 
     return reserva;
@@ -59,8 +55,6 @@ class ReservasProvider {
       encoding: Encoding.getByName("utf-8"),
     );
     final decodedData = json.decode(resp.body);
-
-    print(decodedData);
 
     final reserva = Reserva.fromJsonMap(decodedData);
 

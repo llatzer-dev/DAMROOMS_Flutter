@@ -1,10 +1,6 @@
-import 'package:damroomsapp/models/cliente_model.dart';
-import 'package:damroomsapp/pages/reserva_all_info_page.dart';
-import 'package:damroomsapp/providers/cliente_provider.dart';
 import 'package:damroomsapp/providers/reservas_provider.dart';
+import 'package:damroomsapp/models/reserva_model.dart';
 import 'package:flutter/material.dart';
-
-import 'package:damroomsapp/widgets/background.dart';
 
 class ReservasExistentesScreen extends StatefulWidget {
   const ReservasExistentesScreen({Key? key}) : super(key: key);
@@ -31,7 +27,6 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
         children: [
-          Background(),
           _crearFecha(context),
           const Divider(),
           _testResultado(),
@@ -94,80 +89,13 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
   }
 
   // Widget conseguir los clientes
-  Widget _crearCliente() {
-    final clientesProvider = ClientesProvider();
-
-    return FutureBuilder(
-      future: clientesProvider.getInfoClientes(),
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-        if (snapshot.hasData) {
-          return _crearClientes(snapshot.data!);
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-
-  // Widget que muestra los clientes
-  Widget _crearClientes(List<dynamic> clientes) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: clientes.length,
-      itemBuilder: (BuildContext context, int index) {
-        final nombre = clientes[index].nombre;
-        final apellidos = clientes[index].apellidos;
-
-        return Card(
-          elevation: 20,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(
-                  Icons.bookmarks_outlined,
-                  color: Colors.blue,
-                ),
-                title: Text(
-                  nombre + ' ' + apellidos,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  TextButton(
-                    child: const Text(
-                      'Cancelar',
-                    ),
-                    onPressed: () {},
-                  ),
-                  TextButton(
-                    child: const Text(
-                      'Ok',
-                    ),
-                    onPressed: () {},
-                  )
-                ],
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // Widget conseguir los clientes
   Widget _crearReserva(bool fechaSelected) {
     if (fechaSelected == true) {
       final reservasProvider = ReservasProvider();
 
       return FutureBuilder(
         future: reservasProvider.getInfoReservas(),
-        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Reserva>> snapshot) {
           if (snapshot.hasData) {
             return _crearReservas(snapshot.data!);
           } else {
@@ -203,8 +131,6 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
         final habImporteNoche = reservas[index].habitacion.importe_noche;
 
         if (_fecha.toString().compareTo(fechaInicio.toString()) == 0) {
-          print('LA FECHA ES IGUAL');
-
           return Card(
             color: Colors.blue,
             elevation: 100,
@@ -302,8 +228,6 @@ class _ReservasExistentesScreenState extends State<ReservasExistentesScreen> {
             ),
           );
         } else {
-          print('LA FECHA NO ES IGUAL');
-
           return Container();
         }
       },
